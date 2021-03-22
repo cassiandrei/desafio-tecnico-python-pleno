@@ -1,0 +1,50 @@
+FROM python:3.8.3-alpine
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+COPY ./requirements.txt /requirements.txt
+
+# install psycopg2 dependencies
+RUN apk update \
+    && apk add postgresql-dev python3-dev musl-dev gcc
+
+# Pillow dependencias
+RUN apk add zlib-dev jpeg-dev libjpeg
+
+# dependencies
+RUN apk add --no-cache --virtual .build-deps gcc libc-dev libxslt-dev && \
+    apk add --no-cache libxslt && \
+    apk del .build-deps
+
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade Pillow
+RUN pip install -r /requirements.txt
+
+# Create home directory for the app user
+RUN mkdir -p /docker_file
+
+# Create the app user without root prvilegies
+RUN addgroup -S app && adduser -S app -G app
+
+# Create the appropriate directories
+ENV APP_HOME=/docker_file
+RUN mkdir $APP_HOME/static
+RUN mkdir $APP_HOME/media
+
+WORKDIR $APP_HOME
+
+# copy project
+COPY . $APP_HOME
+
+# copy entrypoint.sh
+COPY ./scripts /scripts
+
+RUN chmod +x /scripts/*
+
+USER app
+
+# run entrypoint.sh
+CMD ["/scripts/entrypoint.sh"]
+

@@ -1,0 +1,6 @@
+django==3.1.7
+djangorestframework
+psycopg2-binary
+Pillow
+six
+django-rest-swagger

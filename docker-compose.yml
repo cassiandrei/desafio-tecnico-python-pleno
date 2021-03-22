@@ -1,0 +1,48 @@
+version: '3.5'
+services:
+  db-herois:
+    image: postgres
+    volumes:
+      - db_herois:/var/lib/postgresql/data/
+    networks:
+      - proxy
+    environment:
+      - env_files/.env.dev.db
+
+  api-herois:
+    container_name: api-herois
+    build: ./api
+    restart: always
+    command: uwsgi --ini uwsgi.ini
+    volumes:
+      - api_data:/docker_api
+    networks:
+      - proxy
+    env_file:
+      - env_files/.env.dev.web
+    depends_on:
+      - db-herois
+
+  nginx-herois:
+    container_name: nginx-herois
+    build: ./nginx
+    restart: always
+    volumes:
+      - api_data:/docker_api
+      - ./log:/var/log/nginx
+    networks:
+      - proxy
+    depends_on:
+      - api-herois
+    environment:
+      - env_files/.env.prod.nginx
+
+
+volumes:
+  api_data:
+  postgres_data:
+
+networks:
+  proxy:
+    external:
+      name: nginx-proxy

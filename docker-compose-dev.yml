@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db-herois:
+    image: postgres
+    volumes:
+      - postgres_backup:/var/lib/postgresql/data/
+    env_file:
+      - ./env_files/.env.dev.db
+
+  web:
+    container_name: web_django
+    hostname: web_django
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - django_project:/docker_api
+    env_file: 
+      - ./env_files/.env.dev.web
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db-herois
+
+
+volumes:
+  postgres_backup:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/volumes/postgres_backup
+      o: bind
+  
+  django_project:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/api/
+      o: bind
