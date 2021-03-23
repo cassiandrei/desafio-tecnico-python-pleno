@@ -3,7 +3,7 @@ services:
   db-herois:
     image: postgres
     volumes:
-      - db_herois:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     networks:
       - proxy
     environment:
