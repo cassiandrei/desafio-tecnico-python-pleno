@@ -40,6 +40,9 @@ WORKDIR $APP_HOME
 # copy project
 COPY . $APP_HOME
 
+# chown all the files to the app user
+RUN chown -R app:app $APP_HOME
+
 # copy entrypoint.sh
 COPY ./scripts /scripts
 
