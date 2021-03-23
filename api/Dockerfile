@@ -1,55 +1,40 @@
-FROM python:3.8.3-alpine
+# pull official base image
+FROM python:3.6.2-alpine
+
+# set work directory
+RUN mkdir /docker_api
+WORKDIR /docker_api
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /requirements.txt
-
 # install psycopg2 dependencies
 RUN apk update \
-    && apk add postgresql-dev python3-dev musl-dev gcc
+    && apk add postgresql-dev gcc python3-dev musl-dev
 
 # Pillow dependencias
 RUN apk add zlib-dev jpeg-dev libjpeg
 
-# dependencies
-RUN apk add --no-cache --virtual .build-deps gcc libc-dev libxslt-dev && \
+RUN apk add --no-cache --virtual .build-deps libc-dev libxslt-dev zlib  && \
     apk add --no-cache libxslt && \
+    pip install --no-cache-dir lxml>=3.5.0 && \
     apk del .build-deps
 
-RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install --upgrade Pillow
-RUN pip install -r /requirements.txt
+# install dependencies
+RUN pip install --upgrade pip
+COPY requirements.txt /docker_api/requirements.txt
 
 RUN apk add python3-dev build-base linux-headers pcre-dev
 RUN pip install https://github.com/unbit/uwsgi/archive/uwsgi-2.0.zip#egg=uwsgi
 
-
-# Create the app user without root prvilegies
-RUN addgroup -S app && adduser -S app -G app
-
-# Create the appropriate directories
-ENV APP_HOME=/docker_api
-RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
-RUN mkdir $APP_HOME/mediafiles
-
-WORKDIR $APP_HOME
-
-# copy project
-COPY . $APP_HOME
-
-# chown all the files to the app user
-
+RUN pip install -r requirements.txt
 
 # copy entrypoint.sh
-COPY ./scripts /scripts
+COPY scripts/entrypoint.sh /docker_api/entrypoint.sh
 
-RUN chmod +x /scripts/*
-
-USER app
+# copy project
+COPY . /docker_api
 
 # run entrypoint.sh
-CMD ["/scripts/entrypoint.sh"]
-
+ENTRYPOINT ["/docker_api/entrypoint.sh"]
