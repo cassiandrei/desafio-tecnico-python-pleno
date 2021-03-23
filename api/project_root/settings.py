@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -23,16 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'r@#=7((n3649k=*$&8zn2wu5t*9-cm(257uvvz=wel!@0=m2k='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('DJANGO_ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_swagger',
     'herois',
 ]
 
@@ -74,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project_root.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -107,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -121,7 +118,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -129,3 +125,25 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# REST FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': '/admin/login',
+    'LOGOUT_URL': '/admin/logout',
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    "api_version": '0.1',  # Specify your API's version
+    "api_path": "/",  # Specify the path to your API not a root level
+    "enabled_methods": [  # Specify which methods to enable in Swagger UI
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    "is_authenticated": False,  # Set to True to enforce user authentication,
+    "is_superuser": False,  # Set to True to enforce admin only access
+}

@@ -15,7 +15,7 @@ services:
       context: ./api
       dockerfile: Dockerfile.dev
     volumes:
-      - django_project:/docker_api
+      - .:/docker_api
     env_file: 
       - ./env_files/.env.dev.web
     ports:
@@ -30,11 +30,4 @@ volumes:
     driver_opts:
       type: none
       device: $PWD/volumes/postgres_backup
-      o: bind
-  
-  django_project:
-    driver: local
-    driver_opts:
-      type: none
-      device: $PWD/api/
       o: bind

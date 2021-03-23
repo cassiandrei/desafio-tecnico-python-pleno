@@ -26,7 +26,8 @@ RUN pip install -r /requirements.txt
 RUN mkdir -p /docker_file
 
 # Create the app user without root prvilegies
-RUN addgroup -S app && adduser -S app -G app
+RUN addgroup -S django \
+    && adduser -S -G django django
 
 # Create the appropriate directories
 ENV APP_HOME=/docker_file
@@ -38,12 +39,14 @@ WORKDIR $APP_HOME
 # copy project
 COPY . $APP_HOME
 
+RUN chown -R django $APP_HOME
+
 # copy entrypoint.sh
 COPY ./scripts /scripts
 
 RUN chmod +x /scripts/*
 
-USER app
+USER django
 
 # run entrypoint.sh
 CMD ["/scripts/entrypoint.sh"]
