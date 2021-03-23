@@ -3,11 +3,11 @@ services:
   db-herois:
     image: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_backup:/var/lib/postgresql/data/
     networks:
       - proxy
-    environment:
-      - ./env_files/.env.dev.db
+    env_file:
+      - ./env_files/.env.prod.db
 
   api-herois:
     container_name: api-herois
@@ -34,13 +34,17 @@ services:
       - proxy
     depends_on:
       - api-herois
-    environment:
+    env_file:
       - ./env_files/.env.prod.nginx
 
 
 volumes:
-  api_data:
-  postgres_data:
+  postgres_backup:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/volumes/postgres_backup
+      o: bind
 
 networks:
   proxy:
