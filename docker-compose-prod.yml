@@ -7,7 +7,7 @@ services:
     networks:
       - proxy
     environment:
-      - env_files/.env.dev.db
+      - ./env_files/.env.dev.db
 
   api-herois:
     container_name: api-herois
@@ -19,7 +19,7 @@ services:
     networks:
       - proxy
     env_file:
-      - env_files/.env.dev.web
+      - ./env_files/.env.dev.web
     depends_on:
       - db-herois
 
@@ -35,7 +35,7 @@ services:
     depends_on:
       - api-herois
     environment:
-      - env_files/.env.prod.nginx
+      - ./env_files/.env.prod.nginx
 
 
 volumes:
