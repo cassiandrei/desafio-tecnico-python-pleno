@@ -31,7 +31,7 @@ RUN pip install https://github.com/unbit/uwsgi/archive/uwsgi-2.0.zip#egg=uwsgi
 RUN pip install -r requirements.txt
 
 # copy entrypoint.sh
-RUN chmod 777 /scripts/*
+RUN chmod +x /scripts/*
 COPY scripts/entrypoint.sh /docker_api/entrypoint.sh
 
 # copy project
