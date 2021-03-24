@@ -1,9 +1,9 @@
 from django.urls import path
-
-from herois.views import UniversoCreate, UniversoListViewset, HeroiCreate, UniversoViewSet, HeroiListViewSet, HeroiViewSet
-from core.views import index
+from core.views import index, addheroi, favorite
 
 app_name = 'core'
 urlpatterns = [
     path('', index, name='index'),
+    path('addheroi/', addheroi, name='addheroi'),
+    path('favoritar/', favorite, name='favoritar'),
 ]

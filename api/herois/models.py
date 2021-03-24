@@ -34,6 +34,9 @@ class Heroi(models.Model):
     def __str__(self):
         return self.nome
 
+    # def get_absolut_url(self):
+    #     return reverse()
+
     def get_foto_url(self):
         if self.foto:
             return self.foto.url

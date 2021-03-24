@@ -44,7 +44,7 @@ class UniversoViewSet(RetrieveUpdateDestroyAPIView):
 
 class HeroiListViewSet(ListAPIView):
     """
-        Lista de herois com busca.
+        Lista de herois.
     """
     serializer_class = HeroiSerializer
     permission_classes = (AllowAny,)
