@@ -30,12 +30,15 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'core:index' %}">Home
+                    <a class="nav-link" href="{% url 'core:index' %}">Início
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'core:addheroi' %}">Add herói</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:meus_favoritos' %}">Meus favoritos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'api_docs' %}">API</a>
@@ -78,6 +81,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% block page_scripts %}{% endblock %}
 
 </body>
 

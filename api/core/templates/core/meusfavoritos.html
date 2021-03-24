@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="row mt-5 mb-5">
+
+        <div class="col-lg-12 col-md-12 mb-12">
+            <h4>Meus favoritos</h4>
+            <table class="table">
+                <thead>
+                <th>Nome</th>
+                <th>Universo</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Força</th>
+                <th>Velocidade</th>
+                </thead>
+                <tbody>
+                {% for obj in favoritos %}
+                    <tr>
+                        <td>{{ obj.heroi.nome }}</td>
+                        <td>{{ obj.heroi.universo }}</td>
+                        <td>{{ obj.heroi.altura }}</td>
+                        <td>{{ obj.heroi.peso }}</td>
+                        <td>{{ obj.heroi.forca }}</td>
+                        <td>{{ obj.heroi.velocidade }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}
