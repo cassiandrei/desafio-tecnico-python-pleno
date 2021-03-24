@@ -33,3 +33,9 @@ class Heroi(models.Model):
 
     def __str__(self):
         return self.nome
+
+    def get_foto_url(self):
+        if self.foto:
+            return self.foto.url
+        else:
+            return 'https://isat.com.br/wp-content/uploads/2019/02/Artigo-Jornada-do-her%C3%B3i-720x480.png'

@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4">
+        <h1 class="display-3">Bem vindo!</h1>
+        <p class="lead">Você está na plataforma que contém vários heróis, busque seu heroi favorito ou explore a
+            API.</p>
+        <a target="_blank" href="{% url 'api_docs' %}" class="btn btn-primary btn-lg">Explorar a API</a>
+    </header>
+
+
+    <link rel="stylesheet" href="{% static 'css/buscador.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+        <br/>
+        <div class="row mb-5">
+            <div class="col-12 col-md-12 col-lg-12">
+                <form class="card card-sm">
+                    <div class="card-body row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <i class="fas fa-search h4 text-body"></i>
+                        </div>
+                        <!--end of col-->
+                        <div class="col">
+                            <input class="form-control form-control-lg form-control-borderless" type="search"
+                                   placeholder="Buscar herói">
+                        </div>
+                        <!--end of col-->
+                        <div class="col-auto">
+                            <button class="btn btn-lg btn-success" type="submit">Search</button>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                </form>
+            </div>
+            <!--end of col-->
+        </div>
+
+
+
+    <div class="row text-center">
+        {% for obj in herois %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{{ obj.get_foto_url }}" width="50px" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ obj }}</h4>
+                        <p class="card-text">{{ obj.descricao }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Ver mais</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
