@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mt-5 mb-5">
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="player1">Player 1</label>
+                    <select class="form-control" id="player1" name="player1">
+                        {% for obj in jogadores %}
+                            <option value="{{ obj.pk }}">{{ obj.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="player2">Player 2</label>
+                    <select class="form-control" id="player2" name="player2">
+                        {% for obj in jogadores %}
+                            <option value="{{ obj.pk }}">{{ obj.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-success btn-block">Combate!</button>
+            </div>
+
+            {% if vencedor == 'Empate' %}
+                <div class="col-12 alert alert-warning">
+                    Empate!
+                </div>
+            {% else %}
+                {% if vencedor %}
+                    <div class="col-12">
+                        <h3>Vencedor: <b>{{ vencedor }}</b></h3>
+                        <img class="card-img-top" src="{{ vencedor.get_foto_url }}" width="50px" alt="">
+                        <p>{{ vencedor.descricao }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+
+        </div>
+    </form>
+{% endblock %}
+
+{% block page_scripts %}
+    <script>
+        $("#player1").val("{{ player1 }}");
+        $("#player2").val("{{ player2 }}");
+    </script>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.urls import path
-from core.views import index, addheroi, favorite, my_favorites
+from core.views import index, addheroi, favorite, my_favorites, combate
 
 app_name = 'core'
 urlpatterns = [
@@ -7,4 +7,5 @@ urlpatterns = [
     path('addheroi/', addheroi, name='addheroi'),
     path('favoritar/', favorite, name='favoritar'),
     path('favoritos/', my_favorites, name='meus_favoritos'),
+    path('combate/', combate, name='combate'),
 ]

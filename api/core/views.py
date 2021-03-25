@@ -1,11 +1,10 @@
 from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
-# Create your views here.
-from core.forms import HeroiForm
+from herois.forms import HeroiForm
 from core.models import Favorito
 from herois.models import Heroi
+from herois.utils import play_combate
 
 
 def index(request):
@@ -59,3 +58,36 @@ def my_favorites(request):
     favoritos = Favorito.objects.all()
     context = {'favoritos': favoritos}
     return render(request, 'core/meusfavoritos.html', context=context)
+
+
+def combate(request):
+    vencedor = None
+    player1 = None
+    player2 = None
+    if request.method == 'POST':
+        player1 = request.POST.get('player1', None)
+        player2 = request.POST.get('player2', None)
+
+        if player1 and player2:
+            if player1 != player2:
+                vencedor = play_combate(player1, player2)
+                if vencedor != 'Empate':
+                    vencedor = Heroi.objects.get(id=vencedor)
+            else:
+                messages.error(request, 'Os heróis não podem ser iguais!')
+        else:
+            if not player1:
+                messages.error(request, 'Selecione o player 1')
+            if not player2:
+                messages.error(request, 'Selecione o player 2')
+
+    context = {
+        'jogadores': Heroi.objects.all(),
+        'vencedor': vencedor,
+        'player1': player1,
+        'player2': player2,
+    }
+
+    return render(request, 'core/combate.html', context=context)
+
+

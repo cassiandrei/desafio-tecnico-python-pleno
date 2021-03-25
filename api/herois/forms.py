@@ -8,7 +8,6 @@ class HeroiForm(forms.ModelForm):
         model = Heroi
         exclude = '__all__'
 
-
     def __init__(self, *args, **kwargs):
         super(HeroiForm, self).__init__(*args, **kwargs)
         self.fields['foto'].required = True
