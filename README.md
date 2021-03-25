@@ -2,6 +2,13 @@
 
 Desáfio Técnico para vaga Python Pleno
 
+
+## Tecnologias
+
+#### Docker + Django + Nginx + PostgresSQL + SSL ### 
+
+
+
 ## Deploy local
 
 ### **Instale o docker-compose no seu computador e execute:** ### 
